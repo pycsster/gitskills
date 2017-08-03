@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>微博发布功能</title>
+	<style>
+		*{margin:0;padding:0}
+		#weibo-box{
+			width: 600px;
+			border: 1px solid #000;
+			margin:100px auto 0;
+			padding:10px;
+		}
+		#weibo-box textarea{
+			width: 450px;
+			height: 160px;
+			resize:none;    /*resize 重置尺寸*/
+		}
+		#weibo-box input{
+			width: 40px;
+			height: 24px;
+			vertical-align:9px;   /*表示垂直对齐方式到基线的距离*/
+		}
+		#weibo-box ul{
+			padding:20px 0 20px 90px;
+			list-style-type:none;
+		}
+		#weibo-box li{
+			border-bottom:1px dashed #ccc;
+			line-height: 30px;
+		}
+	</style>
+	<script src="common.js"></script>
+	<script>
+	//JS 的入口函数
+	addEvent(window, 'load', function(){
+		var weibo_box  = document.getElementById('weibo-box');
+		var weibo_form = document.forms['weibo-form'];
+		var weibo_ul   = weibo_box.getElementsByTagName('ul')[0];
+
+		//当单击“发布”的时候，发布微博
+
+		addEvent(weibo_form.weibo_btn, 'click', function(){
+			//判断：如果用户没有输入的时候
+			if(weibo_form.weibo_txt.value==''){
+				alert('请输入微博内容');
+			}else{
+				//新生成一个li，放在ul中
+				var new_li = document.createElement('li');
+				new_li.innerHTML = weibo_form.weibo_txt.value;
+
+				if(weibo_ul.firstChild){  //如果ul中有子元素
+					weibo_ul.insertBefore(new_li, weibo_ul.firstChild);   //将新生成的元素放在weibo_ul的第一个孩子的前面
+				}else{  //如果ul中没有子元素
+					weibo_ul.appendChild(new_li);
+				}
+
+
+				//清空文本域
+				weibo_form.weibo_txt.value='';
+			}
+
+		});
+	});
+	</script>
+</head>
+<body>
+	<div id="weibo-box">
+		<form action="http://www.itull.cn" name="weibo-form">
+			微博内容：
+			<textarea name="weibo_txt" maxlength='400'></textarea>
+			<input type="button" value="发布" name="weibo_btn">
+		</form>
+		<ul></ul>
+		<!-- <ul>
+			<li>一期有一个贵州吴彦祖</li>
+		</ul> -->
+	</div>
+</body>
+</html>
